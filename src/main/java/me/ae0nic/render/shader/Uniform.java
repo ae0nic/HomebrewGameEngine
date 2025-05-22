@@ -1,6 +1,4 @@
-package me.ae0nic.render;
-
-import org.w3c.dom.Attr;
+package me.ae0nic.render.shader;
 
 public class Uniform {
     private final AttributeType type;

@@ -1,12 +1,7 @@
 package me.ae0nic.render.shader;
 
-import me.ae0nic.render.Attribute;
-import me.ae0nic.render.Uniform;
-import org.w3c.dom.Attr;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

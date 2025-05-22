@@ -1,4 +1,4 @@
-package me.ae0nic.render;
+package me.ae0nic.render.shader;
 
 import static org.lwjgl.opengl.GL45.*;
 

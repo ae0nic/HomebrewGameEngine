@@ -1,6 +1,6 @@
 package me.ae0nic;
 
-import me.ae0nic.render.AttributeType;
+import me.ae0nic.render.shader.AttributeType;
 import me.ae0nic.render.shader.Shader;
 import me.ae0nic.render.VertexBuffer;
 import me.ae0nic.render.Window;
@@ -9,7 +9,6 @@ import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GLCapabilities;
 
-import java.nio.IntBuffer;
 import java.nio.file.Paths;
 
 import static org.lwjgl.glfw.GLFW.*;

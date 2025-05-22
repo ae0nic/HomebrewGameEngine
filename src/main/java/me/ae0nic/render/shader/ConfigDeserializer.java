@@ -1,10 +1,6 @@
 package me.ae0nic.render.shader;
 
 import com.google.gson.*;
-import me.ae0nic.render.Attribute;
-import me.ae0nic.render.AttributeType;
-import me.ae0nic.render.Uniform;
-import org.w3c.dom.Attr;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

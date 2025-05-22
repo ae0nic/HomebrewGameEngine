@@ -1,5 +1,7 @@
 package me.ae0nic.render;
 
+import me.ae0nic.render.shader.AttributeType;
+
 import java.util.ArrayList;
 
 import static org.lwjgl.opengl.GL45.*;
