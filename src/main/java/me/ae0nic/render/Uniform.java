@@ -1,24 +1,18 @@
 package me.ae0nic.render;
 
-public class Attribute {
+import org.w3c.dom.Attr;
+
+public class Uniform {
     private final AttributeType type;
     private final String name;
-    private final int location;
-    public Attribute(AttributeType type, String name, int location) {
+    public Uniform(AttributeType type, String name) {
         this.type = type;
         this.name = name;
-        this.location = location;
     }
-    
     public AttributeType getType() {
         return type;
     }
-
     public String getName() {
         return name;
-    }
-
-    public int getLocation() {
-        return location;
     }
 }

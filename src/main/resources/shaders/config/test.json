@@ -1,0 +1,10 @@
+{
+  "uniforms": [
+    ["VEC3_FLOAT", "offset"]
+  ],
+  "attributes": [
+    ["VEC3_FLOAT", "aPos", 0]
+  ],
+  "vertex": "test.vert",
+  "fragment": "test.frag"
+}

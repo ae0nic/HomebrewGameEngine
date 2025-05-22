@@ -7,7 +7,7 @@ import static org.lwjgl.opengl.GL45.*;
 public class VertexBuffer {
     protected int vbo;
     protected int vao;
-    protected ArrayList<Attribute> attributes = new ArrayList<>();
+    protected ArrayList<AttributeType> attributes = new ArrayList<>();
     protected int stride = 0;
     protected ArrayList<Integer> offsets = new ArrayList<>();
     protected boolean attributesEnabled = false;
@@ -17,7 +17,7 @@ public class VertexBuffer {
         this.vao = glGenVertexArrays();
     }
     
-    public void addAttribute(Attribute a) {
+    public void addAttribute(AttributeType a) {
         if (attributesEnabled) 
             throw new IllegalStateException("Cannot add new attribute after calling enableAttributes()!");
         stride += a.getSize();
@@ -28,7 +28,7 @@ public class VertexBuffer {
         int offset = 0;
         glBindVertexArray(vao);
         for (int i = 0; i < attributes.size(); i++) {
-            Attribute a = attributes.get(i);
+            AttributeType a = attributes.get(i);
             glVertexAttribPointer(i, a.getLength(), a.getType(), false, stride, offset);
             offset += a.getSize();
             glEnableVertexAttribArray(i);

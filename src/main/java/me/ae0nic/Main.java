@@ -1,13 +1,16 @@
 package me.ae0nic;
 
-import me.ae0nic.render.Attribute;
-import me.ae0nic.render.Shader;
+import me.ae0nic.render.AttributeType;
+import me.ae0nic.render.shader.Shader;
 import me.ae0nic.render.VertexBuffer;
 import me.ae0nic.render.Window;
 import me.ae0nic.util.IntVector2;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GLCapabilities;
+
+import java.nio.IntBuffer;
+import java.nio.file.Paths;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL45.*;
@@ -58,12 +61,11 @@ public class Main {
         
         vertexBuffer = new VertexBuffer(glGenBuffers());
         
-        shader = new Shader("shaders/vertex/test.vert",
-                "shaders/fragment/test.frag");
+        shader = new Shader(Paths.get("shaders/config/test.json"));
         shader.compile();
         
         vertexBuffer.setData(vertices, GL_STATIC_DRAW);
-        vertexBuffer.addAttribute(Attribute.VEC3_FLOAT);
+        vertexBuffer.addAttribute(AttributeType.VEC3_FLOAT);
         vertexBuffer.enableAttributes();
     }
     
@@ -77,6 +79,7 @@ public class Main {
             float[] offset = {(float) Math.sin(System.currentTimeMillis() / 1000.), 0.0f, 0.0f};
             int location = glGetUniformLocation(shader.getProgram(), "offset");
             glUniform3fv(location, offset);
+            shader.use();
             vertexBuffer.bind();
             glDrawArrays(GL_TRIANGLES, 0, 3);
             
