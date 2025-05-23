@@ -1,6 +1,6 @@
 {
   "uniforms": [
-    ["VEC3_FLOAT", "offset"]
+    ["BOOL", "offset"]
   ],
   "attributes": [
     ["VEC3_FLOAT", "aPos", 0]

@@ -23,7 +23,7 @@ public class Main {
     float[] vertices = {
             -0.5f, -0.5f, 0.0f,
             0.5f, -0.5f, 0.0f,
-            0.0f, 0.5f, 0.0f
+            0.0f, 0.5f, 0.0f,
     };
 
     public static void main(String[] args) {
@@ -64,7 +64,7 @@ public class Main {
         shader.compile();
         
         vertexBuffer.setData(vertices, GL_STATIC_DRAW);
-        vertexBuffer.addAttribute(AttributeType.VEC3_FLOAT);
+        vertexBuffer.addAttribute(AttributeType.VEC3_FLOAT); // TODO: Automatically add attributes from config by writing Pipeline.java
         vertexBuffer.enableAttributes();
     }
     
@@ -74,10 +74,6 @@ public class Main {
         while (!window.shouldClose()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             
-            shader.use();
-            float[] offset = {(float) Math.sin(System.currentTimeMillis() / 1000.), 0.0f, 0.0f};
-            int location = glGetUniformLocation(shader.getProgram(), "offset");
-            glUniform3fv(location, offset);
             shader.use();
             vertexBuffer.bind();
             glDrawArrays(GL_TRIANGLES, 0, 3);
