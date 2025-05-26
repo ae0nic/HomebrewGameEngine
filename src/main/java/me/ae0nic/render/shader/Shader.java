@@ -3,22 +3,19 @@ package me.ae0nic.render.shader;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.commons.io.IOUtils;
-import org.w3c.dom.Attr;
 
 import static org.lwjgl.opengl.GL45.*;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 
 public class Shader {
     private String fragmentCode;
     private String vertexCode;
-    private Config shaderConfig;
+    private final Config shaderConfig;
     private int program;
 
     public Shader(Path configPath) {
@@ -270,7 +267,7 @@ public class Shader {
                 break;
             }
             default:
-                throw new RuntimeException("Both the argument and the declared uniform type are unsupported (if you see this, it is a bug)");
+                throw new RuntimeException("The argument type is unsupported (if you see this, it is a bug)");
 
         }
 

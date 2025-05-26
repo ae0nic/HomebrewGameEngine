@@ -1,8 +1,6 @@
 package me.ae0nic;
 
-import me.ae0nic.render.shader.AttributeType;
-import me.ae0nic.render.shader.Shader;
-import me.ae0nic.render.VertexBuffer;
+import me.ae0nic.render.Pipeline;
 import me.ae0nic.render.Window;
 import me.ae0nic.util.IntVector2;
 import org.lwjgl.Version;
@@ -17,9 +15,8 @@ import static org.lwjgl.opengl.GL.*;
 
 public class Main {
     private Window window;
-    Shader shader;
+    Pipeline pipeline;
 
-    VertexBuffer vertexBuffer;
     float[] vertices = {
             -0.5f, -0.5f, 0.0f,
             0.5f, -0.5f, 0.0f,
@@ -45,7 +42,7 @@ public class Main {
     private void init() {
         window = new Window(600, 600, "Hello World");
         window.setKeyCallback((window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
+            if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
                 glfwSetWindowShouldClose(window, true);
             }
         });
@@ -56,16 +53,9 @@ public class Main {
         window.makeCurrent();
         GLCapabilities capabilities = createCapabilities();
         glfwSwapInterval(1);
-        window.setVisible(true);
-        
-        vertexBuffer = new VertexBuffer(glGenBuffers());
-        
-        shader = new Shader(Paths.get("shaders/config/test.json"));
-        shader.compile();
-        
-        vertexBuffer.setData(vertices, GL_STATIC_DRAW);
-        vertexBuffer.addAttribute(AttributeType.VEC3_FLOAT); // TODO: Automatically add attributes from config by writing Pipeline.java
-        vertexBuffer.enableAttributes();
+
+        pipeline = new Pipeline(Paths.get("shaders/config/test.json"));
+        pipeline.getVertexBuffer().setData(vertices, GL_STATIC_DRAW);
     }
     
     private void loop() {
@@ -73,13 +63,13 @@ public class Main {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         while (!window.shouldClose()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            
-            shader.use();
-            vertexBuffer.bind();
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+
+            pipeline.draw();
             
             window.swap();
             glfwPollEvents();
+
+            window.setVisible(true);
         }
     }
 }
