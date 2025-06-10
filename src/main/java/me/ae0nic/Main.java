@@ -2,7 +2,7 @@ package me.ae0nic;
 
 import me.ae0nic.render.Pipeline;
 import me.ae0nic.render.Window;
-import me.ae0nic.util.IntVector2;
+import org.joml.Vector2i;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GLCapabilities;
@@ -46,9 +46,9 @@ public class Main {
                 glfwSetWindowShouldClose(window, true);
             }
         });
-        IntVector2 size = window.getSize();
+        Vector2i size = window.getSize();
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        window.setPos(new IntVector2((vidmode.width() - size.x) / 2,
+        window.setPos(new Vector2i((vidmode.width() - size.x) / 2,
                 (vidmode.height() - size.y) / 2));
         window.makeCurrent();
         GLCapabilities capabilities = createCapabilities();

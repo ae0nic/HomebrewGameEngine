@@ -1,16 +1,11 @@
 package me.ae0nic.render;
 
-import me.ae0nic.util.IntVector2;
-import org.lwjgl.Version;
+import org.joml.Vector2i;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallbackI;
-import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GLCapabilities;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL45.*;
-import static org.lwjgl.opengl.GL.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 
@@ -47,15 +42,15 @@ public class Window {
         glfwSetKeyCallback(window, callback);
     }
     
-    public IntVector2 getSize() {
+    public Vector2i getSize() {
         assert !destroyed : "Cannot use a destroyed window!";
         int[] width = new int[1];
         int[] height = new int[1];
         glfwGetWindowSize(window, width, height);
-        return new IntVector2(width[0], height[0]);
+        return new Vector2i(width[0], height[0]);
     }
     
-    public void setPos(IntVector2 pos) {
+    public void setPos(Vector2i pos) {
         assert !destroyed : "Cannot use a destroyed window!";
         glfwSetWindowPos(window, pos.x, pos.y);
     }
