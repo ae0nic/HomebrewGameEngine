@@ -13,6 +13,7 @@ public class VertexBuffer {
     protected ArrayList<AttributeType> attributes = new ArrayList<>();
     protected int stride = 0;
     protected boolean attributesEnabled = false;
+    protected int size;
 
     public VertexBuffer() {
         this(glGenBuffers());
@@ -51,36 +52,47 @@ public class VertexBuffer {
         switch (data) {
             case short[] s:
                 glBufferData(GL_ARRAY_BUFFER, s, usage);
+                size = s.length;
                 break;
             case int[] i:
                 glBufferData(GL_ARRAY_BUFFER, i, usage);
+                size = i.length;
                 break;
             case long[] l:
                 glBufferData(GL_ARRAY_BUFFER, l, usage);
+                size = l.length;
                 break;
             case float[] f:
                 glBufferData(GL_ARRAY_BUFFER, f, usage);
+                size = f.length;
                 break;
             case double[] d:
                 glBufferData(GL_ARRAY_BUFFER, d, usage);
+                size = d.length;
                 break;
             case ByteBuffer b:
                 glBufferData(GL_ARRAY_BUFFER, b, usage);
+                size = b.limit();
                 break;
             case ShortBuffer s:
                 glBufferData(GL_ARRAY_BUFFER, s, usage);
+                size = s.limit();
                 break;
             case IntBuffer i:
                 glBufferData(GL_ARRAY_BUFFER, i, usage);
+                size = i.limit();
                 break;
             case LongBuffer l:
                 glBufferData(GL_ARRAY_BUFFER, l, usage);
+                size = l.limit();
                 break;
             case FloatBuffer f:
                 glBufferData(GL_ARRAY_BUFFER, f, usage);
+                size = f.limit();
                 break;
             case DoubleBuffer d:
                 glBufferData(GL_ARRAY_BUFFER, d, usage);
+                size = d.limit();
                 break;
             case null, default:
                 throw new IllegalArgumentException("Data is not a valid type!");

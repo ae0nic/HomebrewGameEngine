@@ -44,14 +44,17 @@ public class Pipeline {
     public void draw() {
         vertexBuffer.bind();
         program.use();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.size);
     }
 
-    public void draw(int ebo) {
+    public void draw(int[] ebo) {
+        int eboAddress = glGenBuffers();
+
         vertexBuffer.bind();
         program.use();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-        glDrawElements(GL_TRIANGLES, 3, GL_INT, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboAddress);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, ebo, GL_STATIC_DRAW);
+        glDrawElements(GL_TRIANGLES, ebo.length, GL_UNSIGNED_INT, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 }

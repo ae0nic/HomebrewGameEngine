@@ -1,0 +1,10 @@
+{
+  "uniforms": [
+    ["MAT4_FLOAT", "projection"]
+  ],
+  "attributes": [
+    ["VEC3_FLOAT", "aPos", 0]
+  ],
+  "vertex": "project.vert",
+  "fragment": "project.frag"
+}

@@ -115,6 +115,8 @@ public class Shader {
             throw new IllegalArgumentException("The type of the declared uniform does not match the type of the argument!");
         }
 
+        use();
+
         switch (values) { // Prepare for 130 lines of switch statement :(
             case Float f: {
                 glUniform1f(location, f);

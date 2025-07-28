@@ -2,6 +2,7 @@ package me.ae0nic;
 
 import me.ae0nic.render.Pipeline;
 import me.ae0nic.render.Window;
+import org.joml.Matrix4f;
 import org.joml.Vector2i;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -17,11 +18,25 @@ public class Main {
     private Window window;
     Pipeline pipeline;
 
-    float[] vertices = {
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.0f, 0.5f, 0.0f,
+    float[] vertices = new float[]{ // REMBEMBER THAT NEGATIVE Z GOES INTO THE SCREEN!!!!
+            -0.5f,  0.5f, -0.05f,
+            -0.5f, -0.5f, -0.05f,
+            0.5f, -0.5f, -0.05f,
+            0.5f,  0.5f, -0.05f,
     };
+
+    int[] indices = {
+      0, 1, 3, 3, 1, 2
+    };
+
+
+    float FOV = (float) Math.toRadians(60.0f);
+    float Z_NEAR = 0.01f;
+    float Z_FAR = 1000.f;
+
+    float aspectRatio = (float) 1.;
+
+    Matrix4f transformation = new Matrix4f().perspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
 
     public static void main(String[] args) {
         new Main().run();
@@ -54,17 +69,20 @@ public class Main {
         GLCapabilities capabilities = createCapabilities();
         glfwSwapInterval(1);
 
-        pipeline = new Pipeline(Paths.get("shaders/config/test.json"));
+        pipeline = new Pipeline(Paths.get("shaders/config/project.json"));
         pipeline.getVertexBuffer().setData(vertices, GL_STATIC_DRAW);
+
+
     }
     
     private void loop() {
 
+        pipeline.getProgram().setUniform("projection", transformation.get(new float[16]));
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         while (!window.shouldClose()) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            pipeline.draw();
+            pipeline.draw(indices);
             
             window.swap();
             glfwPollEvents();
