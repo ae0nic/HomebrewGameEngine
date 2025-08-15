@@ -2,12 +2,12 @@ package me.ae0nic;
 
 import me.ae0nic.render.Pipeline;
 import me.ae0nic.render.Window;
-import org.joml.Matrix4f;
-import org.joml.Vector2i;
+import org.joml.*;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GLCapabilities;
 
+import java.lang.Math;
 import java.nio.file.Paths;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -36,7 +36,8 @@ public class Main {
 
     float aspectRatio = (float) 1.;
 
-    Matrix4f transformation = new Matrix4f().perspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
+    Camera camera = new Camera(new Vector3f(0, 0, 0), new Vector2f(0.0f, 0.0f));
+    MouseInput mouseInput = new MouseInput();
 
     public static void main(String[] args) {
         new Main().run();
@@ -54,13 +55,35 @@ public class Main {
         
     }
 
+    private void input() {
+        mouseInput.input(window);
+
+        if (this.window.isKeyPressed(GLFW_KEY_ESCAPE)) {
+            this.window.setShouldClose(true);
+        }
+        if (this.window.isKeyPressed(GLFW_KEY_S)) {
+            camera.move(new Vector3f(0.0f, 0.0f, 1e-1f));
+        }
+        if (this.window.isKeyPressed(GLFW_KEY_W)) {
+            camera.move(new Vector3f(0.0f, 0.0f, -1e-1f));
+        }
+        if (this.window.isKeyPressed(GLFW_KEY_A)) {
+            camera.move(new Vector3f(-1e-1f, 0.0f, 0.0f));
+        }
+        if (this.window.isKeyPressed(GLFW_KEY_D)) {
+            camera.move(new Vector3f(1e-1f, 0.0f, 0.0f));
+        }
+        if (this.window.isKeyPressed(GLFW_KEY_E)) {
+            camera.move(new Vector3f(0.0f, 1e-1f, 0.0f));
+        }
+        if (this.window.isKeyPressed(GLFW_KEY_Q)) {
+            camera.move(new Vector3f(0.0f, -1e-1f, 0.0f));
+        }
+        camera.rotate(mouseInput.getDisplVec().x, mouseInput.getDisplVec().y);
+    }
+
     private void init() {
         window = new Window(600, 600, "Hello World");
-        window.setKeyCallback((window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-                glfwSetWindowShouldClose(window, true);
-            }
-        });
         Vector2i size = window.getSize();
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         window.setPos(new Vector2i((vidmode.width() - size.x) / 2,
@@ -71,17 +94,20 @@ public class Main {
 
         pipeline = new Pipeline(Paths.get("shaders/config/project.json"));
         pipeline.getVertexBuffer().setData(vertices, GL_STATIC_DRAW);
+        pipeline.setProjectionMatrix(new Matrix4f().perspective(FOV, aspectRatio, Z_NEAR, Z_FAR).mul(camera.getCameraMatrix().invert()));
+        pipeline.setProjectionMatrixUniform("projection");
 
+        mouseInput.init(window);
 
     }
     
     private void loop() {
-
-        pipeline.getProgram().setUniform("projection", transformation.get(new float[16]));
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         while (!window.shouldClose()) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            input();
 
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            pipeline.setProjectionMatrix(new Matrix4f().perspective(FOV, aspectRatio, Z_NEAR, Z_FAR).mul(camera.getCameraMatrix().invert()));
             pipeline.draw(indices);
             
             window.swap();

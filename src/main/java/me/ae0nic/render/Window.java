@@ -26,12 +26,14 @@ public class Window {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-        
+
         window = glfwCreateWindow(width, height, title, NULL, NULL);
-        
-        if (window == NULL)
+
+        if (window == NULL) {
             throw new IllegalStateException("Unable to create the GLFW window!");
-        
+        }
+
+
     }
     
     public long getWindow() {
@@ -40,6 +42,10 @@ public class Window {
     
     public void setKeyCallback(GLFWKeyCallbackI callback) {
         glfwSetKeyCallback(window, callback);
+    }
+
+    public boolean isKeyPressed(int keyCode) {
+        return glfwGetKey(window, keyCode) == GLFW_PRESS;
     }
     
     public Vector2i getSize() {
@@ -78,5 +84,8 @@ public class Window {
     }
     public boolean shouldClose() {
         return glfwWindowShouldClose(window);
+    }
+    public void setShouldClose(boolean v) {
+        glfwSetWindowShouldClose(window, v);
     }
 }
